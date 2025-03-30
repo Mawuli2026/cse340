@@ -27,6 +27,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
       title: className + " vehicles",
       nav,
       grid,
+      vehicles: data,
     })
   } catch (error) {
     console.error("Error in buildByClassificationId:", error)
