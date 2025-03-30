@@ -33,6 +33,11 @@ app.use(static)
 // Index route
 app.get("/", utilities.handleErrors(baseController.buildHome))
 
+// Error route
+const errorRoute = require("./routes/errorRoute"); // Import error route
+app.use("/error", errorRoute); // Register the error route
+
+
 // Inventory routes
 app.use("/inv", inventoryRoute);
 
