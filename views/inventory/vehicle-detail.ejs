@@ -1,0 +1,22 @@
+<main class="vehicle-container">
+    <!-- Left: Vehicle Image -->
+    <div class="vehicle-image">
+        <img src="<%= vehicle.inv_image %>" alt="<%= vehicle.inv_make %>">
+    </div>
+
+    <!-- Right: Vehicle Details -->
+    <div class="vehicle-info">
+        <h2><%= vehicle.inv_make %> <%= vehicle.inv_model %></h2>
+        <p><strong>Mileage:</strong> <%= vehicle.inv_miles %> miles</p>
+        <p><strong>Year:</strong> <%= vehicle.inv_year %></p>
+        <p><strong>Color:</strong> <%= vehicle.inv_color %></p>
+        <p><strong>Price:</strong> <span class="price">$<%= vehicle.inv_price %></span></p>
+
+        <!-- Action Buttons -->
+        <div class="vehicle-actions">
+            <a href="#">Start My Purchase</a>
+            <a href="#">Schedule a Test Drive</a>
+            <a href="#">Apply for Financing</a>
+        </div>
+    </div>
+</main>

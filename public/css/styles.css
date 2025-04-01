@@ -7,12 +7,13 @@
 }
 
 body {
-  background-color: #f4f4f9;
+  background-color: #d2d2f1;
   color: #333;
-  padding-top: 60px; /* Offset for fixed navbar */
+  padding-top: 80px;
+  text-align: center;
 }
 
-/* ======= Navigation Bar ======= */
+/* ======= Navbar Styling ======= */
 nav {
   background: #2c3e50;
   position: fixed;
@@ -20,13 +21,26 @@ nav {
   top: 0;
   left: 0;
   z-index: 1000;
-  padding: 15px 0;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
+.menu-toggle {
+  font-size: 28px;
+  cursor: pointer;
+  color: white;
+  margin-left: 20px;
+  display: none;
+}
+
+/* Dault Nav (Desktop) */
 nav ul {
   display: flex;
   justify-content: center;
   list-style: none;
+  width: 100%;
 }
 
 nav ul li {
@@ -45,95 +59,140 @@ nav ul li a:hover {
   color: #1abc9c;
 }
 
-/* ======= Hero Section ======= */
-.hero {
-  text-align: center;
-  background: linear-gradient(to right, #34495e, #2c3e50);
+/* ======= Mobile Navigation ======= */
+.menu-toggle {
+  display: none; /* Hide on desktop */
+  font-size: 28px;
+  cursor: pointer;
   color: white;
-  padding: 50px 20px;
+  position: absolute;
+  top: 15px;
+  left: 20px;
+}
+
+/* Hide menu on mobile by default */
+nav ul {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
 }
 
-.hero-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+/* ======= Mobile Navigation ======= */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block; /* Show hamburger menu */
+  }
+
+  
+  nav ul {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    background: #2c3e50;
+    padding: 10px 0;
+    border-bottom: 2px solid #1abc9c;
+  }
+
+  nav ul.active {
+    display: flex;
+  }
+
+  nav ul li {
+    margin: 10px 0;
+    text-align: center;
+  }
 }
 
-.hero-text {
-  max-width: 600px;
-}
-
-.hero-image img {
-  max-width: 90%;
-  height: auto;
-  border-radius: 10px;
-  margin-top: 20px;
-}
-
-/* ======= Call-to-Action Button ======= */
-.cta-button {
-  background: #1abc9c;
-  color: white;
-  padding: 12px 25px;
-  font-size: 18px;
-  border-radius: 5px;
-  text-decoration: none;
-  transition: background 0.3s;
-  display: inline-block;
-  margin-top: 15px;
-}
-
-.cta-button:hover {
-  background: #16a085;
-}
 
 /* ======= Vehicle Listings ======= */
 .vehicle-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  padding: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
   max-width: 1100px;
-  margin: auto;
+  margin: 40px auto;
+  padding: 20px;
 }
 
+/* Vehicle Card */
 .vehicle-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   background: white;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  text-align: center;
-  transition: transform 0.3s;
+  overflow: hidden;
+  max-width: 600px;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .vehicle-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Vehicle Image */
 .vehicle-card img {
-  max-width: 100%;
-  border-radius: 5px;
+  width: 200px;
+  height: auto;
+  border-radius: 5px 0 0 5px;
+  transition: opacity 0.3s;
 }
 
-.vehicle-card h2 {
+.vehicle-card a:hover img {
+  opacity: 0.8;
+}
+
+/* Vehicle Info */
+.vehicle-info {
+  padding: 15px;
+  flex: 1;
+}
+
+.vehicle-info h2 {
   font-size: 22px;
   color: #2c3e50;
-  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.vehicle-card p {
+.vehicle-info p {
   font-size: 16px;
   color: #555;
 }
 
-.vehicle-card .price {
-  font-size: 18px;
+.vehicle-info .price {
+  font-size: 20px;
   font-weight: bold;
   color: #27ae60;
+  margin-top: 10px;
+}
+
+/* ======= Responsive Design ======= */
+@media (max-width: 768px) {
+  .vehicle-list {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .vehicle-card {
+    flex-direction: column;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .vehicle-card img {
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+  }
+
+  .vehicle-info {
+    padding: 20px;
+  }
 }
 
 /* ======= Upgrades & Reviews Section ======= */
@@ -172,7 +231,7 @@ nav ul li a:hover {
 
 /* ======= Footer ======= */
 footer {
-  background: #2c3e50;
+  background: #b5c7d9;
   color: white;
   text-align: center;
   padding: 15px 0;
@@ -203,5 +262,56 @@ footer {
 
   nav ul li {
     margin: 5px 0;
+  }
+}
+
+.hero {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.hero h1 {
+  font-size: 32px;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.hero a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.hero a:hover {
+  text-decoration: underline;
+}
+
+/* ======= Image Styling ======= */
+.hero-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ======= Responsive Adjustments ======= */
+@media (max-width: 768px) {
+  .hero {
+    padding: 30px 15px;
+  }
+
+  .hero h1 {
+    font-size: 26px;
+  }
+
+  .hero p {
+    font-size: 16px;
   }
 }

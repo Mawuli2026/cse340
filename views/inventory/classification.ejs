@@ -4,13 +4,20 @@
   <div class="vehicle-list">
       <% vehicles.forEach(vehicle => { %>
           <div class="vehicle-card">
-              <img src="<%= vehicle.inv_image %>" alt="<%= vehicle.inv_make %>">
-              <h2><%= vehicle.inv_make %> <%= vehicle.inv_model %></h2>
-              <p><%= vehicle.inv_description %></p>
-              <p class="price">$<%= vehicle.inv_price %></p>
+              <a href="/inv/detail/<%= vehicle.inv_id %>">
+                  <img src="<%= vehicle.inv_image %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+              </a>
+              <div class="vehicle-info">
+                  <a href="/inv/detail/<%= vehicle.inv_id %>">
+                      <h2><%= vehicle.inv_make %> <%= vehicle.inv_model %></h2>
+                  </a>
+                  <p><%= vehicle.inv_description %></p>
+                  <p class="price">$<%= vehicle.inv_price %></p>
+              </div>
           </div>
       <% }); %>
   </div>
 <% } else { %>
   <p style="text-align: center;">No vehicles found in this category.</p>
 <% } %>
+
