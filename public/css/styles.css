@@ -7,83 +7,97 @@
 }
 
 body {
-  background-color: #d2d2f1;
+  background-color: #ffffff; /* White background */
   color: #333;
-  padding-top: 80px;
   text-align: center;
 }
 
-/* ======= Navbar Styling ======= */
-nav {
-  background: #2c3e50;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  padding: 10px 0;
+/* ======= Header Styling ======= */
+#top-header {
+  background-color: #f5c6c6; /* Light pink background */
+  color: #0099ff; /* Blue text color */
+  padding: 20px 0;
+  text-align: center;
+  font-size: 15x;
+  font-weight: bold;
+}
+
+.header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.menu-toggle {
-  font-size: 28px;
-  cursor: pointer;
+.site-name a {
+  color: #0099ff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.account-link a {
+  background-color: #0099ff;
   color: white;
-  margin-left: 20px;
-  display: none;
+  text-decoration: none;
+  font-size: 1em;
+  padding: 8px 12px;
+  border-radius: 5px;
 }
 
-/* Dault Nav (Desktop) */
-nav ul {
+.account-link a:hover {
+  background-color: #0077cc;
+}
+
+/* ======= Navbar Styling (Appears Below Header) ======= */
+nav {
+  background: #7f7f9f; /* Greyish purple background */
+  width: 100%;
+  padding: 20px 0;
+  position: relative; /* Ensure it stays below the header */
   display: flex;
   justify-content: center;
-  list-style: none;
-  width: 100%;
 }
 
-nav ul li {
-  margin: 0 15px;
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 0;
+  margin: 0;
 }
 
 nav ul li a {
-  color: white;
+  color: #4b0082; /* Dark purple text */
   text-decoration: none;
   font-size: 18px;
-  padding: 10px;
-  transition: color 0.3s;
+  padding: 10px 15px;
+  font-weight: bold;
 }
 
 nav ul li a:hover {
-  color: #1abc9c;
+  text-decoration: underline;
 }
 
-/* ======= Mobile Navigation ======= */
+/* ======= Mobile Navigation (Hamburger Menu) ======= */
 .menu-toggle {
-  display: none; /* Hide on desktop */
+  display: none;
   font-size: 28px;
   cursor: pointer;
   color: white;
   position: absolute;
   top: 15px;
-  left: 20px;
+  right: 20px;
 }
 
-/* Hide menu on mobile by default */
-nav ul {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-/* ======= Mobile Navigation ======= */
 @media (max-width: 768px) {
   .menu-toggle {
-    display: block; /* Show hamburger menu */
+    display: block;
   }
 
-  
   nav ul {
     display: none;
     flex-direction: column;
@@ -91,9 +105,9 @@ nav ul {
     top: 50px;
     left: 0;
     width: 100%;
-    background: #2c3e50;
+    background: #7f7f9f;
     padding: 10px 0;
-    border-bottom: 2px solid #1abc9c;
+    border-bottom: 2px solid #4b0082;
   }
 
   nav ul.active {
@@ -113,7 +127,7 @@ nav ul {
   flex-wrap: wrap;
   justify-content: center;
   gap: 30px;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 40px auto;
   padding: 20px;
 }
@@ -171,6 +185,40 @@ nav ul {
   color: #27ae60;
   margin-top: 10px;
 }
+
+.vehicle-details {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 50%;
+  z-index: 1000;
+}
+
+.vehicle-details.show {
+  display: block;
+}
+
+.close-btn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
 
 /* ======= Responsive Design ======= */
 @media (max-width: 768px) {
@@ -289,7 +337,7 @@ footer {
 }
 
 .hero a:hover {
-  text-decoration: underline;
+  text-decoration: navajowhite;
 }
 
 /* ======= Image Styling ======= */
@@ -315,3 +363,69 @@ footer {
     font-size: 16px;
   }
 }
+
+.vehicle-details {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 50%;
+  z-index: 1000;
+}
+
+.vehicle-details.show {
+  display: block;
+}
+
+.close-btn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+
+/* ======= Vehicle Detail Page Styling ======= */
+.vehicle-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.vehicle-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.vehicle-info h2 {
+  font-size: 24px;
+  color: #2c3e50;
+  margin-top: 15px;
+}
+
+.vehicle-info p {
+  font-size: 18px;
+  color: #555;
+  margin: 10px 0;
+}
+
+
