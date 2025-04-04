@@ -1,4 +1,4 @@
-const invModel = require("../models/inventory-model"); 
+const invModel = require("../models/inventory-model");
 const utilities = require("../utilities/");
 
 const invCont = {};
@@ -25,7 +25,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
     res.render("./inventory/classification", {
       title: className + " Vehicles",
       nav,
-      vehicles: data, // Pass data but template ensures only image and name are displayed
+      vehicles: data,
     });
   } catch (error) {
     console.error("Error in buildByClassificationId:", error);
@@ -38,30 +38,34 @@ invCont.buildByClassificationId = async function (req, res, next) {
  * ************************** */
 invCont.getVehicleDetail = async function (req, res, next) {
   try {
-    const inv_id = req.params.inv_id; // Get the inventory ID from the request
-    console.log(`Fetching details for vehicle ID: ${inv_id}`); // Debugging log
+    const inv_id = parseInt(req.params.inv_id, 10); // Ensure inv_id is an integer
+    console.log(`Fetching details for vehicle ID: ${inv_id}`);
 
-    const vehicleData = await invModel.getVehicleById(inv_id); // Fetch vehicle data
-    console.log("Fetched Vehicle Data:", vehicleData); // Debugging log
-
-    if (!vehicleData) {
-      return next({ status: 404, message: "Vehicle not found!" }); // Handle 404 error
+    if (isNaN(inv_id)) {
+      return next({ status: 400, message: "Invalid vehicle ID" });
     }
 
-    const nav = await utilities.getNav(); // Get navigation HTML
+    const vehicleData = await invModel.getVehicleById(inv_id);
+    console.log("Fetched Vehicle Data:", vehicleData);
 
-    // Format vehicle details into HTML
-    const vehicleHtml = utilities.buildVehicleHtml(vehicleData);
+    if (!vehicleData) {
+      return next({ status: 404, message: "Vehicle not found!" });
+    }
 
-    res.render("inventory/details", {
-      title: `${vehicleData.inv_make} ${vehicleData.inv_model}`, // Fixed incorrect reference
-      vehicleHtml,
+    const nav = await utilities.getNav();
+
+    // Render the details view with vehicle data (not vehicleHtml)
+    res.render("./inventory/inventoryDetail", {
+      title: `${vehicleData.inv_make} ${vehicleData.inv_model}`,
       nav,
+      vehicle: vehicleData, // Pass vehicle object instead of HTML
     });
+
   } catch (error) {
     console.error("Error in getVehicleDetail:", error);
-    next(error); // Pass error to the error-handling middleware
+    next(error);
   }
 };
 
 module.exports = invCont;
+

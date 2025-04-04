@@ -20,7 +20,7 @@ const utilities = require("./utilities/");
 /* ***********************
  * Middleware for Serving Static Files
  *************************/
-app.use(express.static(path.join(__dirname, "public"))); // ✅ Fixed Static Files
+app.use(express.static(path.join(__dirname, "public")));
 
 /* ***********************
  * View Engine and Templates

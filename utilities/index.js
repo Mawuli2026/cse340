@@ -79,7 +79,7 @@ Util.buildVehicleHtml = function(vehicle) {
                 <p>${vehicle.inv_description}</p>
             </div>
         </div>
-    `
+    `;
 }
 
 module.exports = Util
