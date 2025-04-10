@@ -1,0 +1,18 @@
+<% include ../partials/header %>
+<h1>Add Vehicle</h1>
+<% if (message) { %><p class="notice"><%= message %></p><% } %>
+
+<form action="/inv/add-inventory" method="post">
+  <label for="inv_make">Make</label>
+  <input type="text" id="inv_make" name="inv_make" value="<%= sticky?.inv_make || '' %>" required>
+
+  <label for="inv_model">Model</label>
+  <input type="text" id="inv_model" name="inv_model" value="<%= sticky?.inv_model || '' %>" required>
+
+  <label for="classification_id">Classification</label>
+  <%= classificationSelect %>
+
+  <!-- Add remaining fields with same format -->
+  <button type="submit">Add Vehicle</button>
+</form>
+<% include ../partials/footer %>
