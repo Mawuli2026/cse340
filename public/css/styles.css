@@ -26,10 +26,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 950px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 0 20px;
 }
+
 
 .site-name a {
   color: #0099ff;
@@ -51,26 +52,27 @@ body {
   background-color: #0077cc;
 }
 
-/* ======= Base Nav Styles ======= */
 nav {
   background: #7f7f9f;
   width: 100%;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
-/* Nav list default (desktop) */
 nav ul {
   display: flex;
+  flex-direction: row; /* ensure horizontal */
   justify-content: center;
   gap: 30px;
-  padding: 20px 0;
+  padding: 0;
   margin: 0;
   list-style: none;
 }
 
-/* Nav link styles */
 nav ul li a {
   color: white;
   text-decoration: none;
@@ -83,46 +85,23 @@ nav ul li a:hover {
   background-color: #6a6a8e;
 }
 
-/* ======= Hamburger Toggle (Hidden by default) ======= */
-.menu-toggle {
-  display: none;
-  font-size: 30px;
-  cursor: pointer;
-  color: white;
-  padding: 10px 20px;
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  z-index: 1001;
-}
-
-/* ======= Responsive Styles (Mobile) ======= */
+/* Remove all mobile overrides */
 @media (max-width: 768px) {
   nav ul {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    background: #7f7f9f;
-    padding: 15px 0;
-    border-bottom: 2px solid #4b0082;
-    z-index: 999;
-  }
-
-  nav ul.active {
-    display: flex;
-  }
-
-  nav ul li {
-    margin: 10px 0;
-    text-align: center;
+    flex-direction: row; /* force horizontal */
+    position: static;
+    background: inherit;
+    border: none;
+    display: flex !important;
   }
 
   .menu-toggle {
-    display: block;
+    display: none !important;
   }
+}
+
+html, body {
+  overflow-x: hidden;
 }
 
 
@@ -240,7 +219,7 @@ nav ul li a:hover {
   }
 
   .vehicle-card img {
-    width: 100%;
+    width: 200px;
     border-radius: 5px 5px 0 0;
   }
 
@@ -308,16 +287,7 @@ footer {
   }
 }
 
-@media (max-width: 480px) {
-  nav ul {
-    flex-direction: column;
-    text-align: center;
-  }
 
-  nav ul li {
-    margin: 5px 0;
-  }
-}
 
 .hero {
   text-align: center;
@@ -348,7 +318,7 @@ footer {
 
 /* ======= Image Styling ======= */
 .hero-image {
-  max-width: 40%;
+  max-width: 100%;
   height: auto;
   margin:20px auto;
   display: block;
@@ -636,3 +606,21 @@ label input[type="checkbox"] {
   display: block;
 }
 
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: hidden;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.header-container,
+.container,
+.vehicle-card,
+.vehicle-list {
+  max-width: 100%;
+  overflow-x: hidden;
+}

@@ -45,10 +45,3 @@ document.addEventListener("DOMContentLoaded", () => {
       passwordInput.type = "password";
     }
   }
-
-
-  function toggleMenu() {
-    const nav = document.querySelector("nav ul");
-    nav.classList.toggle("active");
-  }
-
