@@ -22,6 +22,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
       title: className + " Vehicles",
       nav,
       vehicles: data,
+      nav,
     });
   } catch (error) {
     next(error);
@@ -48,6 +49,7 @@ invCont.getVehicleDetail = async function (req, res, next) {
       title: `${vehicleData.inv_make} ${vehicleData.inv_model}`,
       nav,
       vehicle: vehicleData,
+      nav,
     });
   } catch (error) {
     next(error);
@@ -60,6 +62,7 @@ invCont.buildManagementView = async function (req, res) {
   res.render("inventory/management", {
     title: "Inventory Management",
     message,
+    nav,
   });
 };
 
@@ -69,6 +72,7 @@ invCont.addClassificationForm = (req, res) => {
   res.render("inventory/add-classification", {
     title: "Add Classification",
     message,
+    nav,
   });
 };
 
@@ -98,6 +102,7 @@ invCont.addInventoryForm = async (req, res) => {
     classificationSelect,
     sticky: {},
     message: req.flash("message"),
+    nav,
   });
 };
 
