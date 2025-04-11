@@ -14,8 +14,8 @@ body {
 
 /* ======= Header Styling ======= */
 #top-header {
-  background-color: #d1abab; /* Light pink background */
-  color: #0099ff; /* Blue text color */
+  background-color: #e9d3d3; /* Light pink background */
+  color: #0990ea; /* Blue text color */
   padding: 20px 0;
   text-align: center;
   font-size: 15px;
@@ -51,63 +51,64 @@ body {
   background-color: #0077cc;
 }
 
-/* ======= Navbar Styling (Appears Below Header) ======= */
+/* ======= Base Nav Styles ======= */
 nav {
-  background: #7f7f9f; /* Greyish purple background */
+  background: #7f7f9f;
   width: 100%;
-  padding: 20px 0;
-  position: relative; /* Ensure it stays below the header */
-  display: flex;
-  justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
+/* Nav list default (desktop) */
 nav ul {
-  list-style: none;
   display: flex;
   justify-content: center;
   gap: 30px;
-  padding: 0;
+  padding: 20px 0;
   margin: 0;
+  list-style: none;
 }
 
+/* Nav link styles */
 nav ul li a {
-  color: #4b0082; /* Dark purple text */
+  color: white;
   text-decoration: none;
-  font-size: 18px;
-  padding: 10px 15px;
+  padding: 10px;
+  display: block;
   font-weight: bold;
 }
 
 nav ul li a:hover {
-  text-decoration: underline;
+  background-color: #6a6a8e;
 }
 
-/* ======= Mobile Navigation (Hamburger Menu) ======= */
+/* ======= Hamburger Toggle (Hidden by default) ======= */
 .menu-toggle {
   display: none;
-  font-size: 28px;
+  font-size: 30px;
   cursor: pointer;
   color: white;
+  padding: 10px 20px;
   position: absolute;
   top: 15px;
   right: 20px;
+  z-index: 1001;
 }
 
+/* ======= Responsive Styles (Mobile) ======= */
 @media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
-  }
-
   nav ul {
     display: none;
     flex-direction: column;
     position: absolute;
-    top: 50px;
+    top: 60px;
     left: 0;
     width: 100%;
     background: #7f7f9f;
-    padding: 10px 0;
+    padding: 15px 0;
     border-bottom: 2px solid #4b0082;
+    z-index: 999;
   }
 
   nav ul.active {
@@ -118,7 +119,12 @@ nav ul li a:hover {
     margin: 10px 0;
     text-align: center;
   }
+
+  .menu-toggle {
+    display: block;
+  }
 }
+
 
 
 /* ======= Vehicle Listings ======= */
@@ -342,11 +348,10 @@ footer {
 
 /* ======= Image Styling ======= */
 .hero-image {
-  max-width: 100%;
+  max-width: 40%;
   height: auto;
-  margin-top: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin:20px auto;
+  display: block;
 }
 
 /* ======= Responsive Adjustments ======= */
