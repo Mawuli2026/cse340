@@ -14,7 +14,7 @@ body {
 
 /* ======= Header Styling ======= */
 #top-header {
-  background-color: #f5c6c6; /* Light pink background */
+  background-color: #d1abab; /* Light pink background */
   color: #0099ff; /* Blue text color */
   padding: 20px 0;
   text-align: center;
@@ -26,7 +26,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1000px;
+  max-width: 950px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -588,3 +588,46 @@ label input[type="checkbox"] {
   font-size: 1rem;
   margin: 0.5rem 0;
 }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0.5rem 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-grid label {
+  font-weight: bold;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.form-grid button {
+  grid-column: 1 / -1;
+  padding: 0.75rem;
+  background-color: #0066cc;
+  color: rgb(237, 212, 212);
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.add-vehicle-btn {
+  width: 200px;
+  padding: 10px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 0 auto;
+  display: block;
+}
+

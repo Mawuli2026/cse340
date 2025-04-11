@@ -22,7 +22,6 @@ invCont.buildByClassificationId = async function (req, res, next) {
       title: className + " Vehicles",
       nav,
       vehicles: data,
-      nav,
     });
   } catch (error) {
     next(error);
@@ -49,7 +48,6 @@ invCont.getVehicleDetail = async function (req, res, next) {
       title: `${vehicleData.inv_make} ${vehicleData.inv_model}`,
       nav,
       vehicle: vehicleData,
-      nav,
     });
   } catch (error) {
     next(error);
@@ -59,6 +57,7 @@ invCont.getVehicleDetail = async function (req, res, next) {
 // Task 1
 invCont.buildManagementView = async function (req, res) {
   const message = req.flash("message");
+  const nav = await utilities.getNav();
   res.render("inventory/management", {
     title: "Inventory Management",
     message,
@@ -67,8 +66,10 @@ invCont.buildManagementView = async function (req, res) {
 };
 
 // Task 2
-invCont.addClassificationForm = (req, res) => {
+invCont.addClassificationForm = async (req, res) => {
   const message = req.flash("message");
+  const nav = await utilities.getNav(); 
+
   res.render("inventory/add-classification", {
     title: "Add Classification",
     message,
@@ -97,13 +98,14 @@ invCont.addClassification = async (req, res) => {
 // Task 3
 invCont.addInventoryForm = async (req, res) => {
   const classificationSelect = await utilities.buildClassificationList();
+  const nav = await utilities.getNav();
   res.render("inventory/add-inventory", {
     title: "Add Inventory",
     classificationSelect,
-    sticky: {},
+    sticky: req.body || {},
     message: req.flash("message"),
-    nav,
-  });
+    nav
+  });  
 };
 
 invCont.addInventory = async (req, res) => {
