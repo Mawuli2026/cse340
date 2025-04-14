@@ -702,3 +702,29 @@ html, body {
 .add-inventory-form button:hover {
   background-color: #e0f0f8;
 }
+
+
+#inventoryDisplay {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#inventoryDisplay th, #inventoryDisplay td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+#inventoryDisplay tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#inventoryDisplay tr:hover {
+  background-color: #f1f1f1;
+}
+
+#inventoryDisplay th {
+  background-color: #7f7f9f;
+  color: white;
+}

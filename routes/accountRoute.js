@@ -1,39 +1,36 @@
-// Required external modules
 const express = require("express");
 const router = new express.Router();
 const utilities = require("../utilities/");
 const accountController = require("../controllers/accountController");
-const regValidate = require('../utilities/account-validation')
+const regValidate = require("../utilities/account-validation");
 
-
-// Route to handle GET requests to the account login page
-router.get(
-  "/login", 
-  utilities.handleErrors(accountController.buildLogin)
-);
+// Login view
+router.get("/login", utilities.handleErrors(accountController.buildLogin));
 
 // Registration view
 router.get("/register", utilities.handleErrors(accountController.buildRegister));
 
-// Process the registration data
+// Process registration
 router.post(
   "/register",
   regValidate.registrationRules(),
   regValidate.checkRegData,
   utilities.handleErrors(accountController.registerAccount)
-)
+);
 
-// Process the login attempt
+// Process login
 router.post(
   "/login",
-  (req, res) => {
-    res.status(200).send('login process')
-  }
+  regValidate.loginRules(),
+  regValidate.checkLoginData,
+  utilities.handleErrors(accountController.accountLogin)
+);
+
+// Account dashboard
+router.get(
+  "/",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.accountManagement)
 )
 
-// management view
-router.get("/", utilities.handleErrors(accountController.buildLogin))
-
-// Export the router
 module.exports = router;
-

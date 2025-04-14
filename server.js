@@ -19,6 +19,7 @@ const baseController = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
 const utilities = require("./utilities/");
 const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
 
 /* ***********************
  * Middleware for Serving Static Files
@@ -45,8 +46,13 @@ app.use(session({
   name: 'sessionId',
 }))
 
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(cookieParser())
+
+// Apply JWT check to all routes
+app.use(require("./utilities").checkJWTToken)
 
 // Express Messages Middleware
 app.use(require('connect-flash')())
