@@ -136,5 +136,16 @@ Util.checkJWTToken = (req, res, next) => {
  }
 
 
+ Util.checkAdmin = (req, res, next) => {
+  const accountType = res.locals.accountData?.account_type
+  if (accountType === 'Admin' || accountType === 'Employee') {
+    return next()
+  }
+  req.flash("notice", "Access denied. You must be an employee or admin.")
+  return res.redirect("/account/login")
+}
 
-module.exports = Util, this.checkLogin
+
+
+
+module.exports = Util

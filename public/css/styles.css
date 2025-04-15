@@ -728,3 +728,35 @@ html, body {
   background-color: #7f7f9f;
   color: white;
 }
+
+
+.account-section {
+  margin: 2rem 0;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+}
+
+.account-section h2, 
+.account-section h3 {
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.account-section p {
+  margin: 0.5rem 0;
+}
+
+.account-link-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #0077cc;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.account-link-button:hover {
+  background-color: #005fa3;
+}

@@ -6,63 +6,100 @@ const utilities = require("../utilities/")
 const classificationValidator = require("../utilities/validators/classificationValidator")
 const inventoryValidator = require("../utilities/validators/inventoryValidator")
 
+
+
+// =============================
+// PUBLIC ROUTES
+// =============================
+
 // Route to build inventory by classification view
 router.get("/type/:classificationId", invController.buildByClassificationId)
 
-// Route to fetch details of a specific vehicle by inventory ID
+// Route to fetch vehicle details by inventory ID
 router.get("/detail/:inv_id", utilities.handleErrors(invController.getVehicleDetail))
 
-// Add classification
-router.get("/add-classification", utilities.handleErrors(invController.addClassificationForm))
+// Get inventory by classification as JSON (used in dropdown JS fetch)
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+
+// =============================
+// ADMIN ROUTES (REQUIRES JWT + ADMIN)
+// =============================
+
+// Inventory Management View
+router.get(
+  "/",
+  utilities.checkJWTToken,
+  utilities.checkAdmin,
+  utilities.handleErrors(invController.buildManagementView)
+)
+
+// Add Classification View
+router.get(
+  "/add-classification",
+  utilities.checkJWTToken,
+  utilities.checkAdmin,
+  utilities.handleErrors(invController.addClassificationForm)
+)
+
+// Add Classification Action
 router.post(
   "/add-classification",
+  utilities.checkJWTToken,
+  utilities.checkAdmin,
   ...classificationValidator,
   utilities.handleErrors(invController.addClassification)
 )
 
-// Inventory Management View
-router.get("/", utilities.handleErrors(invController.buildManagementView))
+// Add Inventory View
+router.get(
+  "/add-inventory",
+  utilities.checkJWTToken,
+  utilities.checkAdmin,
+  utilities.handleErrors(invController.addInventoryForm)
+)
 
-// ADD Inventory - FIXED
+// Add Inventory Action
 router.post(
   "/add-inventory",
-  ...inventoryValidator.newInventoryRules(), // <-- Spread the rules array
-  inventoryValidator.checkUpdateData,        // <-- Handle errors and stickiness
+  utilities.checkJWTToken,
+  utilities.checkAdmin,
+  ...inventoryValidator.newInventoryRules(),
+  inventoryValidator.checkUpdateData,
   utilities.handleErrors(invController.addInventory)
 )
 
-// Get inventory by classification as JSON
-router.get(
-  "/getInventory/:classification_id",
-  utilities.handleErrors(invController.getInventoryJSON)
-)
-
-// Edit inventory view
+// Edit Inventory View
 router.get(
   "/edit/:inv_id",
+  utilities.checkJWTToken,
+  utilities.checkAdmin,
   utilities.handleErrors(invController.editInventoryView)
 )
 
-
+// Update Inventory Action
 router.post(
   "/update",
+  utilities.checkJWTToken,
+  utilities.checkAdmin,
   ...inventoryValidator.newInventoryRules(),
   inventoryValidator.checkUpdateData,
   utilities.handleErrors(invController.updateInventory)
 )
 
-
-// Deliver delete confirmation view
+// Delete Confirmation View
 router.get(
   "/delete/:inv_id",
+  utilities.checkJWTToken,
+  utilities.checkAdmin,
   utilities.handleErrors(invController.deleteInventoryView)
 )
 
-// Handle deletion of inventory item
+// Delete Inventory Action
 router.post(
   "/delete/",
+  utilities.checkJWTToken,
+  utilities.checkAdmin,
   utilities.handleErrors(invController.deleteInventoryItem)
 )
-
 
 module.exports = router

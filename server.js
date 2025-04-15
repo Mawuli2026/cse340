@@ -54,6 +54,14 @@ app.use(cookieParser())
 // Apply JWT check to all routes
 app.use(require("./utilities").checkJWTToken)
 
+// Middleware to make login data available in all views
+app.use((req, res, next) => {
+  res.locals.loggedin = req.session.loggedin || false
+  res.locals.accountData = req.session.accountData || null
+  next()
+})
+
+
 // Express Messages Middleware
 app.use(require('connect-flash')())
 app.use(function(req, res, next){

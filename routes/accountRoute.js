@@ -3,6 +3,8 @@ const router = new express.Router();
 const utilities = require("../utilities/");
 const accountController = require("../controllers/accountController");
 const regValidate = require("../utilities/account-validation");
+const accountValidator = require("../utilities/validators/accountValidator");
+
 
 // Login view
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
@@ -32,5 +34,26 @@ router.get(
   utilities.checkLogin,
   utilities.handleErrors(accountController.accountManagement)
 )
+
+
+router.get("/update/:account_id", 
+  utilities.checkJWTToken, 
+  accountController.updateAccountView)
+
+router.post("/update", 
+  accountValidator.accountUpdateRules(), 
+  accountValidator.checkAccountUpdate, 
+  accountController.updateAccount)
+
+
+
+router.post("/update-password", 
+  accountValidator.passwordRules(), 
+  accountValidator.checkPasswordUpdate, 
+  accountController.updatePassword)
+
+
+  router.get("/logout", accountController.logout)
+
 
 module.exports = router;
