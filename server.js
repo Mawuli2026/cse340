@@ -1,134 +1,147 @@
-const path = require("path");
+const path = require("path")
 
 /* ******************************************
- * This server.js file is the primary file of the 
- * application. It is used to control the project.
- *******************************************/
-
-/* ***********************
  * Require Statements
- *************************/
+ *******************************************/
+const express = require("express")
 const session = require("express-session")
-const pool = require('./database/')
-const express = require("express");
-const expressLayouts = require("express-ejs-layouts");
-const env = require("dotenv").config();
-const app = express();
-const staticRoutes = require("./routes/static");
-const baseController = require("./controllers/baseController");
-const inventoryRoute = require("./routes/inventoryRoute");
-const utilities = require("./utilities/");
+const pgSession = require("connect-pg-simple")(session)
+const pool = require("./database/")
+const expressLayouts = require("express-ejs-layouts")
 const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
+const flash = require("connect-flash")
 
-/* ***********************
- * Middleware for Serving Static Files
- *************************/
-app.use(express.static(path.join(__dirname, "public")));
+require("dotenv").config()
 
+const app = express()
 
+// Controllers & Routes
+const baseController = require("./controllers/baseController")
+const staticRoutes = require("./routes/static")
+const inventoryRoute = require("./routes/inventoryRoute")
+const accountRoute = require("./routes/accountRoute")
+const errorRoute = require("./routes/errorRoute")
+const utilities = require("./utilities/")
 
-
-/* ***********************
+/* ******************************************
  * Middleware
- * ************************/
-/* ***********************
- * Middleware
- * ************************/
+ *******************************************/
+
+// Serve static files
+app.use(express.static(path.join(__dirname, "public")))
+
+// Session configuration
+app.use(
+  session({
+    store: new pgSession({
+      pool,
+      tableName: "session",
+      createTableIfMissing: true,
+    }),
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    name: "sessionId",
+    cookie: { maxAge: 3600000 }, // 1 hour
+  })
+)
+
+// Flash messages (must come after session)
+app.use(flash())
+
+// Body parsing
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cookieParser())
+
+// Inject flash into response locals
+app.use((req, res, next) => {
+  res.locals.message = req.flash("notice")
+  next()
+})
+
+// JWT Middleware - always before routes
+app.use(utilities.checkJWTToken)
+
+// Set login state for all views (based on JWT decoded data)
+app.use((req, res, next) => {
+  res.locals.loggedin = res.locals.loggedin || false
+  res.locals.accountData = res.locals.accountData || null
+  next()
+})
+
+/* ******************************************
+ * View Engine and Templates
+ *******************************************/
+app.set("view engine", "ejs")
+app.use(expressLayouts)
+app.set("layout", "./layouts/layout")
+app.set("views", path.join(__dirname, "views"))
+
+
+app.use(require('connect-flash')())
+
+// ✅ Add this block right after connect-flash
+const expressMessages = require("express-messages")
+app.use((req, res, next) => {
+  res.locals.messages = expressMessages(req, res)
+  next()
+})
+
+
+/* ******************************************
+ * Routes
+ *******************************************/
+app.use(staticRoutes)
+app.get("/", utilities.handleErrors(baseController.buildHome))
+app.use("/inv", inventoryRoute)
+app.use("/account", accountRoute)
+app.use("/error", errorRoute)
+
+// 404 Handler
+app.use((req, res, next) => {
+  next({ status: 404, message: "Sorry, we appear to have lost that page." })
+})
+
+/* ******************************************
+ * Express Error Handler
+ *******************************************/
+app.use(async (err, req, res, next) => {
+  let nav = await utilities.getNav()
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  let message =
+    err.status == 404
+      ? err.message
+      : "Oh no! There was a crash. Maybe try a different route?"
+
+  res.status(err.status || 500).render("errors/error", {
+    title: err.status || "Server Error",
+    message,
+    nav,
+  })
+})
+
+/* ******************************************
+ * Local Server Info
+ *******************************************/
+const port = process.env.PORT || 5500
+const host = process.env.HOST || "localhost"
+
+app.listen(port, () => {
+  console.log(`App listening on ${host}:${port}`)
+})
+
+const db = require('./database/')
+
+// Session setup
 app.use(session({
   store: new (require('connect-pg-simple')(session))({
+    pool: db.pool, // ✅ Use raw Pool
     createTableIfMissing: true,
-    pool,
   }),
   secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
   name: 'sessionId',
 }))
-
-
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
-app.use(cookieParser())
-
-// Apply JWT check to all routes
-app.use(require("./utilities").checkJWTToken)
-
-// Middleware to make login data available in all views
-app.use((req, res, next) => {
-  res.locals.loggedin = req.session.loggedin || false
-  res.locals.accountData = req.session.accountData || null
-  next()
-})
-
-
-// Express Messages Middleware
-app.use(require('connect-flash')())
-app.use(function(req, res, next){
-  res.locals.messages = require('express-messages')(req, res)
-  next()
-})
-
-/* ***********************
- * View Engine and Templates
- *************************/
-app.set("view engine", "ejs");
-app.use(expressLayouts);
-app.set("layout", "./layouts/layout"); // not at views root
-app.set("views", path.join(__dirname, "views")); 
-
-/* ***********************
- * Routes
- *************************/
-app.use(staticRoutes);
-
-// Index route
-app.get("/", utilities.handleErrors(baseController.buildHome));
-
-// Error route
-const errorRoute = require("./routes/errorRoute"); // Import error route
-app.use("/error", errorRoute); // Register the error route
-
-// Inventory routes
-app.use("/inv", inventoryRoute);
-
-// Account route
-const accountRoute = require("./routes/accountRoute");
-app.use("/account", accountRoute);
-
-// File Not Found Route - must be last route in list
-app.use(async (req, res, next) => {
-  next({ status: 404, message: "Sorry, we appear to have lost that page." });
-});
-
-/* ***********************
- * Express Error Handler
- * Place after all other middleware
- *************************/
-app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav();
-  console.error(`Error at: "${req.originalUrl}": ${err.message}`);
-  let message =
-    err.status == 404
-      ? err.message
-      : "Oh no! There was a crash. Maybe try a different route?";
-  res.status(err.status || 500).render("errors/error", {
-    title: err.status || "Server Error",
-    message,
-    nav,
-  });
-});
-
-/* ***********************
- * Local Server Information
- * Values from .env (environment) file
- *************************/
-const port = process.env.PORT || 5500;
-const host = process.env.HOST || "localhost";
-
-/* ***********************
- * Log statement to confirm server operation
- *************************/
-app.listen(port, () => {
-  console.log(`App listening on ${host}:${port}`);
-});

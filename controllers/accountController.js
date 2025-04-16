@@ -160,9 +160,12 @@ accountController.updateAccountView = async (req, res) => {
     title: "Update Account",
     nav,
     accountData,
+    errors: [], // ✅ Add this
     message: req.flash("notice")
   })
 }
+
+
 
 /* ****************************************
  * Update Account Information
@@ -183,7 +186,8 @@ accountController.updateAccount = async (req, res) => {
 /* ****************************************
  * Update Account Password
  **************************************** */
-accountController.updatePassword = async (req, res) => {
+accountController.updatePassword = async (re
+, res) => {
   const { account_id, account_password } = req.body
   const hashedPassword = await bcrypt.hash(account_password, 10)
   const updateResult = await accountModel.updatePassword(account_id, hashedPassword)

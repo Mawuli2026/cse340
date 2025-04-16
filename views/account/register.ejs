@@ -9,6 +9,15 @@
       <% }) %>
     </ul>
   <% } %>
+
+  <% if (Array.isArray(errors) && errors.length > 0) { %>
+    <ul class="notice">
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+  
   
   <form action="/account/register" method="post" class="form-card" id="register-form">
     <label for="account_firstname">First name</label>

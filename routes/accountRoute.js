@@ -31,7 +31,8 @@ router.post(
 // Account dashboard
 router.get(
   "/",
-  utilities.checkLogin,
+  utilities.checkJWTToken,
+  utilities.checkLogin, // <-- this now works because checkJWTToken sets res.locals
   utilities.handleErrors(accountController.accountManagement)
 )
 
@@ -51,7 +52,6 @@ router.post("/update-password",
   accountValidator.passwordRules(), 
   accountValidator.checkPasswordUpdate, 
   accountController.updatePassword)
-
 
   router.get("/logout", accountController.logout)
 

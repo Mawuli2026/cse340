@@ -1,7 +1,10 @@
   <h1><%= title %></h1>
 
   <!-- Flash Messages -->
-  <%- messages() %>
+  <% if (typeof messages === "function" && messages().length > 0) { %>
+    <%- messages() %>
+  <% } %>
+  
  
   <!-- Login Form -->
   <div class="login-wrapper">
