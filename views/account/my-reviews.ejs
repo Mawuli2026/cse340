@@ -1,0 +1,22 @@
+<h1>My Reviews</h1>
+
+<% if (message && message.length > 0) { %>
+  <p class="notice"><%= message %></p>
+<% } %>
+
+<% if (reviews.length === 0) { %>
+  <p>You haven't submitted any reviews yet.</p>
+<% } else { %>
+  <ul class="review-list">
+    <% reviews.forEach(review => { %>
+      <li>
+        <p><strong><%= review.inv_make %> <%= review.inv_model %></strong> - <%= new Date(review.review_date).toLocaleDateString() %></p>
+        <p><%= review.review_text %></p>
+        <form action="/reviews/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this review?');">
+          <input type="hidden" name="review_id" value="<%= review.review_id %>">
+          <button type="submit">Delete</button>
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>

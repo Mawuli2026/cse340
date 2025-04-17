@@ -5,6 +5,7 @@ const invController = require("../controllers/invController")
 const utilities = require("../utilities/")
 const classificationValidator = require("../utilities/validators/classificationValidator")
 const inventoryValidator = require("../utilities/validators/inventoryValidator")
+const reviewController = require("../controllers/reviewController")
 
 
 
@@ -100,6 +101,13 @@ router.post(
   utilities.checkJWTToken,
   utilities.checkAdmin,
   utilities.handleErrors(invController.deleteInventoryItem)
+)
+
+router.post(
+  "/submit",
+  utilities.checkJWTToken,
+  utilities.checkLogin,
+  reviewController.submitReview
 )
 
 module.exports = router

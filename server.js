@@ -99,6 +99,12 @@ app.use("/inv", inventoryRoute)
 app.use("/account", accountRoute)
 app.use("/error", errorRoute)
 
+// Review Route
+const reviewRoute = require("./routes/reviewRoute");
+app.use("/reviews", reviewRoute);
+
+
+
 // 404 Handler
 app.use((req, res, next) => {
   next({ status: 404, message: "Sorry, we appear to have lost that page." })

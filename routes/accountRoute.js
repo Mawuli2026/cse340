@@ -56,4 +56,13 @@ router.post("/update-password",
   router.get("/logout", accountController.logout)
 
 
+  // My Reviews Page
+router.get(
+  "/my-reviews",
+  utilities.checkJWTToken,
+  utilities.checkLogin,
+  require("../controllers/reviewController").myReviews
+)
+
+
 module.exports = router;

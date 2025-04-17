@@ -16,3 +16,37 @@
 <% } else { %>
   <p>Vehicle not found.</p>
 <% } %>
+
+
+<section class="review-section">
+  <% if (loggedin) { %>
+    <h3>Write a Review</h3>
+    <form action="/reviews/submit" method="post" class="review-form">
+      <input type="hidden" name="inv_id" value="<%= vehicle.inv_id %>">
+      <label for="review_text">Your review:</label>
+      <textarea name="review_text" id="review_text" rows="4" required></textarea>
+      <button type="submit">Submit Review</button>
+    </form>
+  <% } else { %>
+    <p><a href="/account/login">Log in</a> to write a review.</p>
+  <% } %>
+
+  <h3>Reviews</h3>
+  <% if (reviews.length === 0) { %>
+    <p>No reviews yet. Be the first to write one!</p>
+  <% } else { %>
+    <ul class="review-list">
+      <% reviews.forEach(review => { %>
+        <li class="review-card">
+          <p class="review-meta">
+            <strong><%= review.account_firstname %> <%= review.account_lastname %></strong>
+            on <%= new Date(review.review_date).toLocaleDateString() %>
+          </p>
+          <p class="review-body"><%= review.review_text %></p>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+</section>
+
+
